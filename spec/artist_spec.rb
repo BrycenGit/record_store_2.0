@@ -7,6 +7,8 @@ require 'pry'
 
 
 describe '#Artist' do
+
+  
   
   describe('.all') do
     it("returns an empty array when there are no artists") do
@@ -59,6 +61,17 @@ describe '#Artist' do
       artist.save()
       artist.update("A Love Supreme")
       expect(artist.name).to(eq("A Love Supreme"))
+    end
+  end
+
+  describe('#delete') do
+    it("deletes all songs belonging to a deleted album") do
+      album = Album.new({:name => "A Love Supreme", :id => nil})
+      album.save()
+      song = Song.new({:name => "Naima", :album_id => album.id, :id => nil, :artist_id => 1})
+      song.save()
+      album.delete()
+      expect(Song.find(song.id)).to(eq(nil))
     end
   end
 
