@@ -61,6 +61,7 @@ class Artist
     end
   end
 
+
   def albums
     albums = []
     results = DB.exec("SELECT album_id FROM albums_artists WHERE artist_id = #{@id};")

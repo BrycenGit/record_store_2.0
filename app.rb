@@ -111,3 +111,13 @@ delete('/artists/:id') do
   redirect to('/artists')
 end
 
+post('/artists/:id') do
+  @artist = Artist.find(params[:id].to_i())
+  name = params[:album_name]
+  album = Album.new({:name => name, :id => nil})
+  album.save()
+  @artist.update({:album_name => name})
+  @albums = @artist.albums
+  erb(:artist)
+end
+
