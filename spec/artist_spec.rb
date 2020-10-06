@@ -43,4 +43,14 @@ describe '#Artist' do
     end
   end
 
+  describe('.find') do
+    it("finds an artist by id") do
+      artist = Artist.new({:name => "A Love Supreme", :id => nil})
+      artist.save()
+      artist2 = Artist.new({:name => "Blue", :id => nil})
+      artist2.save()
+      expect(Artist.find(artist.id)).to(eq(artist))
+    end
+  end
+
 end
