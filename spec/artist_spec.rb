@@ -35,4 +35,12 @@ describe '#Artist' do
     end
   end
 
+  describe('#==') do
+    it("is the same artist if it has the same attributes as another artist") do
+      artist = Artist.new({:name => "Blue", :id => nil})
+      artist2 = Artist.new({:name => "Blue", :id => nil})
+      expect(artist).to(eq(artist2))
+    end
+  end
+
 end
