@@ -1,9 +1,9 @@
 class Artist
-attr_accessor :name, :id
+  attr_accessor :name, :id
 
-  def initiatlize(attributes)
-    @name = attribute.fetch(:name)
-    @id = attribute.fetch(:id)
+  def initialize(attributes)
+    @name = attributes.fetch(:name)
+    @id = attributes.fetch(:id)
   end
 
   def self.all
