@@ -53,5 +53,13 @@ describe '#Artist' do
     end
   end
 
-  
+  describe('#update') do
+    it("updates an artist by id") do
+      artist = Artist.new({:name => "A Love Supreme", :id => nil})
+      artist.save()
+      artist.update("A Love Supreme")
+      expect(artist.name).to(eq("A Love Supreme"))
+    end
+  end
+
 end
