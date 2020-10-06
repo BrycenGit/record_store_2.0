@@ -2,6 +2,7 @@ require('sinatra')
 require('sinatra/reloader')
 require('./lib/album')
 require('./lib/song')
+require('./lib/artist')
 require('pry')
 require("pg")
 require('dotenv/load')
@@ -18,61 +19,95 @@ get('/albums') do
   erb(:albums)
 end
 
-get ('/albums/new') do
+get('/albums/new') do
   erb(:new_album)
 end
 
-post ('/albums') do
+post('/albums') do
   name = params[:album_name]
   album = Album.new({:name => name, :id => nil})
   album.save()
   redirect to('/albums')
 end
 
-get ('/albums/:id') do
+get('/albums/:id') do
   @album = Album.find(params[:id].to_i())
   erb(:album)
 end
 #
-get ('/albums/:id/edit') do
+get('/albums/:id/edit') do
   @album = Album.find(params[:id].to_i())
   erb(:edit_album)
 end
 
-patch ('/albums/:id') do
+patch('/albums/:id') do
   @album = Album.find(params[:id].to_i())
   @album.update(params[:name])
   redirect to('/albums')
 end
 
-delete ('/albums/:id') do
+delete('/albums/:id') do
   @album = Album.find(params[:id].to_i())
   @album.delete()
   redirect to('/albums')
 end
 
-get ('/albums/:id/songs/:song_id') do
+get('/albums/:id/songs/:song_id') do
   @song = Song.find(params[:song_id].to_i())
   erb(:song)
 end
 
-post ('/albums/:id/songs') do
+post('/albums/:id/songs') do
   @album = Album.find(params[:id].to_i())
-  song = Song.new({:name => params[:song_name], :album_id => @album.id, :id => nil})
+  song = Song.new({:name => params[:song_name], :album_id => @album.id, :id => nil, :artist_id => 1}) # hardcoded for now will change later
   song.save()
   erb(:album)
 end
 
-patch ('/albums/:id/songs/:song_id') do
+patch('/albums/:id/songs/:song_id') do
   @album = Album.find(params[:id].to_i())
   song = Song.find(params[:song_id].to_i())
   song.update(params[:name], @album.id)
   erb(:album)
 end
 
-delete ('/albums/:id/songs/:song_id') do
+delete('/albums/:id/songs/:song_id') do
   song = Song.find(params[:song_id].to_i())
   song.delete
   @album = Album.find(params[:id].to_i())
   erb(:album)
 end
+#################################
+get('/artists') do
+  @artists = Artist.all
+  erb(:artists)
+end
+
+get('/artists/new') do
+  erb(:new_artist)
+end
+
+get('/artists/:id') do
+  @artist = Artist.find(params[:id].to_i())
+  erb(:artist)
+end
+
+post('/artists') do 
+  name = params[:artist_name]
+  artist = Artist.new({:name => name, :id => nil})
+  artist.save()
+  redirect to('/artists')
+end
+
+patch('/artists/:id') do
+  @artist = Artist.find(params[:id].to_i())
+  @artist.update(params[:name])
+  redirect to('/artists')
+end
+
+delete('/artists/:id') do
+  @artist = Artist.find(params[:id].to_i())
+  @artist.delete()
+  redirect to('/artists')
+end
+
